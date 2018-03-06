@@ -27,6 +27,32 @@ public class PrintServiceImpl implements PrintService {
     @Override
     public List<AbstractPrint> findAllBooksAndMagazines() throws PrintServiceException {
 
+        // Get All Print Objects
+        List<AbstractPrint> list = streamPrintsFromFiles();
+        list.sort(Comparator.comparing(AbstractPrint::getTitle));
+
+        return list;
+
+    }
+
+    @Override
+    public AbstractPrint findPrint(String isbn) throws PrintServiceException {
+        AbstractPrint p =  findAllBooksAndMagazines().stream().filter(x -> isbn.equals(x.getIsbn())).findAny().orElse(null);
+        return p;
+    }
+
+    @Override
+    public List<AbstractPrint> findAllBooksAndMagazines(String authorEmail) {
+        return  null;
+    }
+
+
+    /**
+     * Combine both books and magazines datasources into one, no sorted for performance.
+     * @return
+     * @throws PrintServiceException
+     */
+    private List<AbstractPrint> streamPrintsFromFiles() throws PrintServiceException  {
         // holder for our prints objects
         List<AbstractPrint> list = new LinkedList<>();
 
@@ -42,24 +68,8 @@ public class PrintServiceImpl implements PrintService {
                 .map(b -> new Magazine(b.get(1), b.get(0), b.get(3)))
                 .forEachOrdered(list::add);
 
-        // sort list by title
-        list.sort(Comparator.comparing(AbstractPrint::getTitle));
-
         return list;
-
     }
-
-    @Override
-    public AbstractPrint findPrint(String isbn) {
-        return  null;
-    }
-
-    @Override
-    public List<AbstractPrint> findAllBooksAndMagazines(String authorEmail) {
-        return  null;
-    }
-
-
 
     /**
      * Read lines from resources in data classpath.

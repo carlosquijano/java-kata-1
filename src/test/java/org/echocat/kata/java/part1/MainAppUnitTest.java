@@ -12,11 +12,25 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Test Case that Prints to Console tasks outputs.
+ *
+ * Only two methods are working:
+ *
+ * public void printOutAllPrintsToConsole()
+ * printFromISBN()
+ *
+ * Did not had the time to finish the autthors part, but hopefully you can see what I did from a architecture or
+ * solution perspective, of course this could be improved, validation, etc.
+ *
+ */
 public class MainAppUnitTest {
 
-
+    // Usually we could autwirder this service
     PrintService printService;
 
     @Before
@@ -37,8 +51,39 @@ public class MainAppUnitTest {
      */
     @Test
     public void printOutAllPrintsToConsole() throws PrintServiceException {
-        PrintServiceImpl service = new PrintServiceImpl();
-        service.findAllBooksAndMagazines().forEach(o -> printDetailToConsole(o));
+
+        // get all books and magazines from service
+        List<AbstractPrint> l = printService.findAllBooksAndMagazines();
+        assertNotNull(l);
+
+        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("-- PRINT ALL TO CONSOLE -----------------------------------------------------------------");
+
+        l.forEach(o -> printDetailToConsole(o));
+
+    }
+
+    /**
+     * Find a book or magazine by its isbn.
+     *
+     * @throws PrintServiceException
+     */
+    @Test
+    public void printFromISBN() throws PrintServiceException {
+
+        final String lookingUpFor = "5454-5587-3210";
+        final String expectedTitle = "Beautiful cooking";
+
+        final AbstractPrint p = printService.findPrint(lookingUpFor);
+
+        // should not be null and shall match the expected title
+        assertNotNull(p);
+        assertEquals(p.getTitle(), expectedTitle);
+
+        // PRINT CONSOLE
+        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("-- PRINT ISBN 5454-5587-3210 ------------------------------------------------------------");
+        printDetailToConsole(p);
     }
 
 
@@ -50,6 +95,7 @@ public class MainAppUnitTest {
      */
     private void printDetailToConsole(final AbstractPrint o) {
 
+        System.out.println("");
         if (o instanceof Book) {
             System.out.println("-- BOOK INFORMATION-------");
             System.out.println("BOOK ISBN : " +  o.getIsbn());

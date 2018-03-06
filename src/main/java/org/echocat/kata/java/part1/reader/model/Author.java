@@ -1,5 +1,8 @@
 package org.echocat.kata.java.part1.reader.model;
 
+/**
+ * Unfinished
+ */
 public class Author {
 
     private String firstname;
