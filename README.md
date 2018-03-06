@@ -1,5 +1,9 @@
 # Java Kata - Part 1: Library
 
+
+> NOTE TO REVIEWERS
+I only was able to complete two of the main three tasks :( in 2.5 hours; I finished most of the architecture, patterns, etc, so finishing the other part should be quick starting from here, but time is time so I just pushed all changes I had. to run `$ mvnw test` and expect output in the console. Thanks in advance. @carlosquijano. 
+
 Code kata in Java where you have to write a library of books and magazines.
 
 [A code kata is an exercise in programming which helps a programmer hone their skills through practice and repetition.](https://en.wikipedia.org/wiki/Kata_(programming))
